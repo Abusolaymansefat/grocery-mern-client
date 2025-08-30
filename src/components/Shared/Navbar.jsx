@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, SunIcon, MoonIcon } from "@heroicons/react/24/outline";
-import logoimage from "../../assets/logo.webp"
+import logoimage from "../../assets/logo.webp";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
+  // প্রথমবার load হলে LocalStorage থেকে theme check
   useEffect(() => {
     if (localStorage.theme === "dark") {
       setDarkMode(true);
@@ -17,6 +18,7 @@ const Navbar = () => {
     }
   }, []);
 
+  // darkMode পরিবর্তন হলে update হবে
   useEffect(() => {
     if (darkMode) {
       localStorage.setItem("theme", "dark");
@@ -35,11 +37,11 @@ const Navbar = () => {
   ];
 
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm">
+    <header className="bg-white dark:bg-gray-900 shadow-sm transition-colors duration-300">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8">
         {/* Logo */}
         <div className="flex items-center gap-x-2">
-          <img src={logoimage} alt="logo " />
+          <img src={logoimage} alt="logo" className="h-8 w-auto" />
         </div>
 
         {/* Desktop Menu */}
@@ -48,7 +50,8 @@ const Navbar = () => {
             <a
               key={item.name}
               href={item.href}
-              className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-semibold"
+              className="relative text-gray-800 dark:text-gray-200 text-sm font-semibold transition-colors duration-200 
+                         hover:text-blue-600 dark:hover:text-blue-400"
             >
               {item.name}
             </a>
@@ -60,7 +63,8 @@ const Navbar = () => {
           {/* Theme Toggle */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="rounded-full p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800"
+            className="rounded-full p-2 text-gray-700 dark:text-gray-200 
+                       hover:bg-gray-200 dark:hover:bg-gray-800 transition"
           >
             {darkMode ? (
               <SunIcon className="h-5 w-5" />
@@ -73,7 +77,8 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden rounded-md p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800"
+            className="lg:hidden rounded-md p-2 text-gray-700 dark:text-gray-200 
+                       hover:bg-gray-200 dark:hover:bg-gray-800"
           >
             <Bars3Icon className="h-6 w-6" />
           </button>
@@ -87,15 +92,15 @@ const Navbar = () => {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-        <div className="fixed inset-0 z-50" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-64 overflow-y-auto bg-white dark:bg-gray-900 p-6 shadow-lg">
+        <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" />
+        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-64 overflow-y-auto 
+                                bg-white dark:bg-gray-900 p-6 shadow-lg transition-colors duration-300">
           <div className="flex items-center justify-between">
-            <span className="text-xl font-bold text-gray-900 dark:text-white">
-              ⚖️ MyLaw
-            </span>
+            <img src={logoimage} alt="logo" className="h-8 w-auto" />
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="rounded-md p-2 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-800"
+              className="rounded-md p-2 text-gray-700 dark:text-gray-200 
+                         hover:bg-gray-200 dark:hover:bg-gray-800"
             >
               <XMarkIcon className="h-6 w-6" />
             </button>
@@ -107,7 +112,10 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-sm font-semibold"
+                className="block rounded-md px-2 py-2 text-gray-800 dark:text-gray-200 
+                           text-sm font-semibold transition-colors duration-200 
+                           hover:bg-gray-100 hover:text-blue-600 
+                           dark:hover:bg-gray-800 dark:hover:text-blue-400"
               >
                 {item.name}
               </a>
